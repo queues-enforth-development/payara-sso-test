@@ -3,18 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.qed.aes.system.ui;
+package com.qed.aes.test.ui;
 
-import com.qed.aes.system.entities.AesUserPreferences;
-import com.qed.aes.system.exceptions.UserPreferenceException;
-import com.qed.aes.system.identitymanager.IdentityException;
-import com.qed.aes.system.managers.UserPreferenceManager;
-import com.qed.aes.system.security.AESSecurityException;
-import com.qed.aes.system.security.AESSecurityServiceClient;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.annotation.FacesConfig;
 import static javax.faces.annotation.FacesConfig.Version.JSF_2_3;
@@ -23,7 +16,6 @@ import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.naming.NamingException;
 import javax.security.enterprise.AuthenticationStatus;
 import static javax.security.enterprise.AuthenticationStatus.SEND_CONTINUE;
 import static javax.security.enterprise.AuthenticationStatus.SEND_FAILURE;
@@ -56,7 +48,7 @@ public class LoginBean {
     /**
      * Our logger
      */
-    private static final Logger LOGGER = Logger.getLogger("com.qed.aes.security");   
+    private static final Logger LOGGER = Logger.getLogger("com.qed.test");   
 
     /**
      * The SOTERIA security context
@@ -69,18 +61,6 @@ public class LoginBean {
      */
     @Inject
     private FacesContext facesContext;
-    
-    /**
-     * Our user themes
-     */
-    @Inject
-    private ThemeBean themeBean;
-    
-    /**
-     * Our user preference manager
-     */
-    @EJB
-    private UserPreferenceManager manager;
     
     /**
      * User name
@@ -132,21 +112,12 @@ public class LoginBean {
                 // If we are OK
                 if (status.equals(SEND_CONTINUE)) {
 
-                    try {
-                        
-                        // Register our session with the security system
-                        AESSecurityServiceClient securityClient = new AESSecurityServiceClient(); 
-                        securityClient.registerSession(username, password);
 
-                        // Restore our user preferenecs
-                        restorePreferences(username);
+                    // Normally do some housekeeping here...
 
-                        // Complete the response
-                        facesContext.responseComplete();
+                    // Complete the response
+                    facesContext.responseComplete();
 
-                    } catch (NamingException | AESSecurityException e) {
-                        addError(facesContext, "Unable to access user session.");
-                    }
 
                 } else if (status.equals(SEND_FAILURE)) {
 
@@ -174,30 +145,10 @@ public class LoginBean {
     }
         
     /**
-     * Restore our user preferences
-     */
-    private void restorePreferences(String loginId) {
-        
-        // Reset the theme mode
-        themeBean.setMode(ThemeBean.Mode.DAY);
-
-        try {
-            
-            AesUserPreferences preferences = manager.getUserPreferences(loginId);
-            ThemeBean.Mode.DAY.setTheme(preferences.getDayTheme());
-            ThemeBean.Mode.NIGHT.setTheme(preferences.getNightTheme());
-            
-        } catch (IdentityException | UserPreferenceException e) {
-            ThemeBean.Mode.DAY.setTheme(UserPreferenceManager.DEFAULT_DAY_THEME);
-            ThemeBean.Mode.NIGHT.setTheme(UserPreferenceManager.DEFAULT_NIGHT_THEME);
-        }        
-        
-    }
-   
-    /**
      * Log the current user out
+     * @return 
      */
-    public void logout() {
+    public String logout() {
 
         // Get our request
         HttpServletRequest request = getRequestFrom(facesContext);        
@@ -225,6 +176,7 @@ public class LoginBean {
             addError(facesContext, e.getMessage());
         }
 
+        return "/index.xhtml";
     }
 
     /**

@@ -3,16 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.qed.aes.system.ui;
+package com.qed.aes.test.ui;
 
-import com.qed.aes.system.identitymanager.Identity;
-import com.qed.aes.system.identitymanager.IdentityException;
-import com.qed.aes.system.identitymanager.IdentityManager;
-import com.qed.aes.system.security.AESSecurityException;
-import com.qed.aes.system.security.AESSecurityServiceClient;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,17 +13,12 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.naming.NamingException;
 import javax.security.enterprise.SecurityContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * UI to manage identity of current user
@@ -82,17 +69,6 @@ public class IdentityBean implements java.io.Serializable {
     private BasicBean basicBean;
     
     /**
-     * Our identity manager
-     */
-    @EJB
-    private IdentityManager identityManager;
-    
-    /**
-     * Our current identity
-     */
-    private Identity identity;
-    
-    /**
      * Permissions cache
      */
     private Map<String, Boolean> permissionsCache;
@@ -138,7 +114,6 @@ public class IdentityBean implements java.io.Serializable {
             String userName = principal.getName();
             
             // Retrieve permissions by user
-            identity = identityManager.getIdentity(userName); 
             initialized = true;
             
         } catch (Throwable t) {
@@ -214,99 +189,6 @@ public class IdentityBean implements java.io.Serializable {
     }
     
     /**
-     * Redirect to the Web/Partner security bridge link
-     */
-    public void goToExternalLink() {
-        try {
-            String link = getTranslatedLink(externalLink);
-            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-            externalContext.redirect(link);
-        } catch (IOException e) {
-            basicBean.showError(LOGGER, "Unable to redirect to Web/Partner: ", e);
-        }
-    }
-    
-    /**
-     * Get a translated link
-     * @param url
-     * @return 
-     * @throws java.io.UnsupportedEncodingException 
-     */
-    public String getTranslatedLink(String url) throws UnsupportedEncodingException {
-        String translatedUrl;
-        
-        // Is this a Web/Partner link?
-        if (! isWebPartnerUrl(url)) {
-            
-            // Just use this
-            translatedUrl = url;
-            
-        } else {
-            
-            // Translate the Web/Partner part of the link
-            String wpUrl = translateUrl(url);
-            
-            // Encode the URL
-            String encodedUrl = URLEncoder.encode(wpUrl, "UTF-8");
-            
-            // Now format for security bridge
-            translatedUrl = getSecurityBridgeLink(encodedUrl);
-            
-        }
-        
-        return translatedUrl;
-    }
-
-    /**
-     * Get Web/Partner link
-     * @param wpLink
-     * @return 
-     */
-    private String getSecurityBridgeLink(String wpLink) {
-        String securityBridgeLink;
-        
-        try {
-            
-            // Make sure we have a link
-            if (wpLink == null) {
-                throw new AESSecurityException("No Web/Partner link specified.");
-            }
-            
-            // Access our security service
-            AESSecurityServiceClient securityService = new AESSecurityServiceClient();
-
-            // Assign a token
-            String userId = identity.getLoginId();
-            String password = getPassword(userId);
-            String token = securityService.assignToken(userId, password);
-
-            // Start with Web/Partner
-            StringBuilder baseUrl = new StringBuilder();
-            baseUrl.append(webPartnerServerUrlSpecification);
-            if (! webPartnerServerUrlSpecification.endsWith("/")) {
-                baseUrl.append("/");
-            }
-
-            // Use the auto login URL
-            StringBuilder aesLoginUrl = new StringBuilder();
-            aesLoginUrl.append(baseUrl);
-            aesLoginUrl.append(AES_LOGIN_URL);
-
-            // Append our token
-            appendParameter(aesLoginUrl, "id", token, 0);
-            appendParameter(aesLoginUrl, "page", wpLink, 1);
-
-            securityBridgeLink = aesLoginUrl.toString();
-
-        } catch (AESSecurityException | IdentityException | NamingException e) {
-            basicBean.showError(LOGGER, "Unable to create security bridge link: ", e);
-            securityBridgeLink = "#";
-        }
-        
-        return securityBridgeLink;
-    }
-
-    /**
      * Append a parameter to a URL
      */
     private void appendParameter(StringBuilder url, String parameterName, String parameterValue, int parameterCount) {
@@ -314,43 +196,6 @@ public class IdentityBean implements java.io.Serializable {
         url.append(parameterName);
         url.append("=");
         url.append(parameterValue);
-    }
-    
-    /**
-     * Get the current user's password
-     * @param userId
-     * @return 
-     * @throws com.qed.aes.system.identitymanager.IdentityException 
-     */
-    public String getPassword(String userId) throws IdentityException {
-        String password;
-        
-        try {
-        
-            // Use our security client
-            AESSecurityServiceClient securityClient = new AESSecurityServiceClient(); 
-            password = securityClient.getPassword(userId);
-            
-        } catch (AESSecurityException | NamingException e) {
-            String message = "Messaging: Unable to retrieve password: ";
-            LOGGER.log(Level.WARNING, message, e);
-            throw new IdentityException(message, e);
-        } 
-
-        return password;
-    }
-    
-    /**
-     * Get our current identity
-     * @return 
-     * @throws com.qed.aes.system.identitymanager.IdentityException
-     */
-    public Identity getIdentity() throws IdentityException {
-        if (initialized)
-            return identity;
-        else {
-            throw new IdentityException("Unable to retrieve identity: ", initializationException);
-        }
     }
     
     /**
@@ -392,55 +237,6 @@ public class IdentityBean implements java.io.Serializable {
         return applicationName + ":" + functionName;
     }
     
-    /**
-     * Default version of logout for applications that have not been updated.This will at least display something, even if just an error.
-     * @return
-     */
-    public String logout() {
-        return logout("/index");
-    }
-    
-    /**
-     * Begin the process of logging this user out
-     * @param initialPage
-     * @return 
-     */
-    public String logout(String initialPage) {        
-
-        // Get our request
-        HttpServletRequest request = getRequestFrom(facesContext);        
-        
-        try {
-            
-            // Check out current identity
-            Identity currentIdentity = getIdentity();
-            String userId = currentIdentity.getLoginId();
-            
-            // Try to retrieve our current session
-            HttpSession session = request.getSession(false);
-            String sessionId = (session != null) ? session.getId() : "";
-            
-            LOGGER.log(Level.INFO, "Identity: Logging out current request context for user/session: {0}/{1}", new Object[] { userId, sessionId } );
-            
-            // Logout current request
-            request.logout();
-            
-            // Invalidate session so user becomes anonymous.
-            if (session == null) {
-                LOGGER.log(Level.INFO, "Identity: No session to invalidate for user: {0}", userId);
-            } else {
-                session.invalidate();
-                LOGGER.log(Level.INFO, "Session invalidated for user: {0}/{1}", new Object[] { userId, sessionId } );
-            }
-            
-        } catch (IdentityException | ServletException e) {
-            basicBean.showError(LOGGER, "Unable to process logout: ", e);
-        }
-
-        // Redirect to our initial page for this application
-        return basicBean.redirect(initialPage);        
-    }
-        
     /**
      * Get the request from our context
      * @return 

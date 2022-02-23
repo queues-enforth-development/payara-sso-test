@@ -1,0 +1,41 @@
+<ui:composition template="/WEB-INF/templates/basic-template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:b="http://bootsfaces.net/ui">    
+    
+    <ui:define name="title">Application A Test</ui:define> 
+
+    <ui:define name="initialize">
+        <f:metadata>  
+            <f:viewAction action="#{initBootsfacesBean.initialize()}"/> 
+        </f:metadata>  
+    </ui:define>
+
+    <ui:define name="content">
+        <b:form id="details"> 
+
+            <b:panel look="primary" title="Application A">
+
+                <b:row>
+                    <b:column span="4">
+                        <h:outputLabel styleClass="gridLabel" value="Name">
+                            <b:inputText styleClass="gridInputText" value="#{appABean.userName}"/>
+                        </h:outputLabel>
+                    </b:column>
+                    <b:column span="4">
+                        <b:commandButton look="primary" value="Say Hello" action="#{appABean.sayHello}"/>
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputLabel styleClass="gridLabel" value="Message">
+                            <h:outputText styleClass="gridText" value="#{appABean.message}"/>
+                        </h:outputLabel>
+                    </b:column>
+                </b:row>
+
+            </b:panel>
+
+        </b:form>                
+    </ui:define>    
+</ui:composition>

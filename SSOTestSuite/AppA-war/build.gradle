@@ -1,0 +1,48 @@
+
+
+apply plugin: 'war'
+
+allprojects {
+    version = '1.00.0000'
+    group = 'com.qed.test'
+}
+
+archivesBaseName = 'app-a'
+
+dependencies {
+
+    
+    compile 'com.qed.test:test-ui-components:1.01.0001'    
+      
+    compile 'javax:javaee-api:8.0.1'          
+    
+}
+
+/**
+ *  ~/.gradle/gradle.properties:
+ *  glassfishHome=/path/to/glassfish_home
+ *
+ *  or in Netbeans, right click project, Properties, Manage Build in Tasks, Run
+ *  Add line to Arguments: -Dorg.gradle.project.glassfishHome=/path/to/glassfish_home
+ *
+ *  For more information about Exec tasks see
+ *  http://www.gradle.org/docs/current/dsl/org.gradle.api.tasks.Exec.html
+ */
+task deploy(dependsOn: 'war', type:Exec) {
+    workingDir "${glassfishHome}${File.separator}bin"
+
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        commandLine 'cmd', '/c', 'asadmin.bat'
+    } else {
+        commandLine "./asadmin"
+    }
+
+    args "deploy", "--force=true", "${war.archivePath}"   
+}
+
+task run(dependsOn: 'deploy') {
+    // Open this page in the browser
+    doLast {
+        java.awt.Desktop.desktop.browse "https://${appHost}/QED/test/AppA".toURI()        
+    }
+}

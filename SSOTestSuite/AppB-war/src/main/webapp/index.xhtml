@@ -5,7 +5,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:b="http://bootsfaces.net/ui">    
     
-    <ui:define name="title">Application A Test</ui:define> 
+    <ui:define name="title">Application B Test</ui:define> 
 
     <ui:define name="initialize">
         <f:metadata>  
@@ -16,20 +16,20 @@
     <ui:define name="content">
         <b:form id="details"> 
 
-            <b:panel look="primary" title="Application A">
+            <b:panel look="primary" title="Application B">
 
                 <b:row>
                     <b:column span="4">
                         <h:outputLabel styleClass="gridLabel" value="Name">
-                            <b:inputText styleClass="gridInputText" value="#{appABean.guestName}"/>
+                            <b:inputText styleClass="gridInputText" value="#{appBBean.guestName}"/>
                         </h:outputLabel>
                     </b:column>
                     <b:column span="4">
-                        <b:commandButton look="primary" value="Say Hello #{identityBean.userName}" action="#{appABean.sayHello}"/>
+                        <b:commandButton look="primary" value="Say Hello #{identityBean.userName}" action="#{appBBean.sayHello}"/>
                     </b:column>
                     <b:column span="4">
                         <h:outputLabel styleClass="gridLabel" value="Message">
-                            <h:outputText styleClass="gridText" value="#{appABean.message}"/>
+                            <h:outputText styleClass="gridText" value="#{appBBean.message}"/>
                         </h:outputLabel>
                     </b:column>
                 </b:row>

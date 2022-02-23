@@ -1,4 +1,4 @@
 rootProject.name = 'SSOTestSuite'
 
-include ':UIComponents', ':AppA-war'
+include ':UIComponents', ':AppA-war', ':AppB-war'
 

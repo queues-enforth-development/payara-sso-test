@@ -17,7 +17,7 @@ import javax.inject.Named;
  */
 @Named
 @SessionScoped
-public class AppABean implements java.io.Serializable {
+public class AppBBean implements java.io.Serializable {
     
     /**
      * Our login and security UI
@@ -39,7 +39,7 @@ public class AppABean implements java.io.Serializable {
     /**
      * Create our UI
      */
-    public AppABean() {
+    public AppBBean() {
         
     }
     
@@ -56,7 +56,7 @@ public class AppABean implements java.io.Serializable {
      * Say hello
      */
     public void sayHello() {
-        message = "Hello " + guestName + " from Application A!";
+        message = "Hello " + guestName + " from Application B!";
     }
 
     public String getGuestName() {

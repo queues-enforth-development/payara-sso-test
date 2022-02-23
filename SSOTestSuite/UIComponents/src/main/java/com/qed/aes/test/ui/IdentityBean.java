@@ -12,13 +12,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.security.enterprise.SecurityContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * UI to manage identity of current user
@@ -31,24 +32,7 @@ public class IdentityBean implements java.io.Serializable {
     /**
      * Our error logger
      */
-    private static final Logger LOGGER = Logger.getLogger("com.qed.aes.system.ui");
-    
-    /**
-     * Our login URL
-     */
-    private static final String AES_LOGIN_URL = "partner/common/aes_login.jsp";
-    
-    /**
-     * Web/Partner protocol string
-     */
-    private static final String WEB_PARTNER_PROTOCOL = "webpartner://";
-    
-    /**
-     * The URL to our Web/Partner server
-     * This will be injected by the container from JNDI
-     */
-    @Resource(mappedName = "resource/webPartnerServerUrl")
-    private String webPartnerServerUrlSpecification;
+    private static final Logger LOGGER = Logger.getLogger("com.qed.test");
     
     /**
      * The SOTERIA security context
@@ -84,10 +68,10 @@ public class IdentityBean implements java.io.Serializable {
     private Throwable initializationException = null;
     
     /**
-     * A Web/Partner link (if present)
+     * Remember our user name
      */
-    private String externalLink;
-        
+    private String userName;
+            
     
     /**
      * Create a new Identity UI
@@ -111,7 +95,7 @@ public class IdentityBean implements java.io.Serializable {
 
             // Retrieve the user name
             Principal principal = securityContext.getCallerPrincipal();
-            String userName = principal.getName();
+            userName = principal.getName();
             
             // Retrieve permissions by user
             initialized = true;
@@ -121,6 +105,54 @@ public class IdentityBean implements java.io.Serializable {
             LOGGER.log(Level.WARNING, "Unable to identify current user: ", t);
         }
 
+    }
+    
+/**
+     * Default version of logout for applications that have not been updated.This will at least display something, even if just an error.
+     * @return
+     */
+    public String logout() {
+        return logout("/index");
+    }
+    
+    /**
+     * Begin the process of logging this user out
+     * @param initialPage
+     * @return 
+     */
+    public String logout(String initialPage) {   
+        
+        try {
+
+            // Get our request
+            HttpServletRequest request = getRequestFrom(facesContext);        
+
+            // Check out current identity
+            String userId = userName;
+
+            // Try to retrieve our current session
+            HttpSession session = request.getSession(false);
+            String sessionId = (session != null) ? session.getId() : "";
+
+            LOGGER.log(Level.INFO, "Identity: Logging out current request context for user/session: {0}/{1}", new Object[] { userId, sessionId } );
+
+            // Logout current request
+            request.logout();
+
+            // Invalidate session so user becomes anonymous.
+            if (session == null) {
+                LOGGER.log(Level.INFO, "Identity: No session to invalidate for user: {0}", userId);
+            } else {
+                session.invalidate();
+                LOGGER.log(Level.INFO, "Session invalidated for user: {0}/{1}", new Object[] { userId, sessionId } );
+            }
+            
+        } catch (ServletException e) {
+            basicBean.showError(LOGGER, "Unable to process logout: ", e);
+        }
+            
+        // Redirect to our initial page for this application
+        return basicBean.redirect(initialPage);        
     }
     
     /**
@@ -152,50 +184,6 @@ public class IdentityBean implements java.io.Serializable {
         }
         
         return newPath.toString();
-    }
-    
-    /**
-     * Translate a URL that has webpartner:// to the proper server
-     * @param origURL
-     * @return 
-     */
-    public String translateUrl(String origURL) {
-        String newURL;
-        
-        // See if we've specified the server
-        if (isWebPartnerUrl(origURL)) {
-            
-            // Replace this with the name of the Web/Partner server
-            newURL = webPartnerServerUrlSpecification + "/" + origURL.substring(WEB_PARTNER_PROTOCOL.length());
-            
-        } else {
-            
-            // Use URL as-is
-            newURL = origURL;
-            
-        }
-                
-        return newURL;
-    }
-    
-    /**
-     * See if a URL is for the Web/Partner system
-     * @param url
-     * @return 
-     */
-    public boolean isWebPartnerUrl(String url) {
-        boolean webPartner = url.startsWith(WEB_PARTNER_PROTOCOL);
-        return webPartner;
-    }
-    
-    /**
-     * Append a parameter to a URL
-     */
-    private void appendParameter(StringBuilder url, String parameterName, String parameterValue, int parameterCount) {
-        url.append(parameterCount == 0 ? "?" : "&");
-        url.append(parameterName);
-        url.append("=");
-        url.append(parameterValue);
     }
     
     /**
@@ -285,12 +273,8 @@ public class IdentityBean implements java.io.Serializable {
         return (s.trim().replace('"', '\''));
     }
 
-    public String getExternalLink() {
-        return externalLink;
-    }
-
-    public void setExternalLink(String externalLink) {
-        this.externalLink = externalLink;
+    public String getUserName() {
+        return userName;
     }
     
 }

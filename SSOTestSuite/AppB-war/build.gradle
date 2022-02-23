@@ -12,7 +12,7 @@ archivesBaseName = 'app-b'
 dependencies {
 
     
-    compile 'com.qed.test:test-ui-components:1.01.0003'    
+    compile 'com.qed.test:test-ui-components:1.01.0006'    
       
     compile 'javax:javaee-api:8.0.1'          
     

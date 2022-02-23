@@ -1,0 +1,54 @@
+<ui:composition template="/configure/configure-standalone.xhtml" 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:b="http://bootsfaces.net/ui"
+    xmlns:o="http://omnifaces.org/ui"    
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+          
+    <ui:define name="scripts">
+        <f:metadata>
+            <f:viewParam name="backurl" value="#{userPreferenceBean.backurl}"/>
+            <f:viewParam name="backdesc" value="#{userPreferenceBean.backdesc}"/>
+            <f:viewAction action="#{userPreferenceBean.load}"/>
+        </f:metadata>
+    </ui:define>
+    
+    <ui:define name="return">
+        <b:button size="lg" styleClass="backButton" iconAwesome="arrow-circle-left" iconSolid="true" value="Back To #{userPreferenceBean.backdesc}" outcome="#{userPreferenceBean.backurl}"/>
+    </ui:define>
+    
+    <ui:define name="content"> 
+        <b:panel look="primary" title="Set Themes">
+            <b:form>
+                <b:row>
+                    <b:column>
+                        <h:outputLabel styleClass="gridLabel" value="User">
+                            <h:outputText styleClass="gridFieldText" value="#{userPreferenceBean.userId}"/>
+                        </h:outputLabel>    
+                    </b:column>
+                </b:row>                    
+                <div jsf:layout="block">
+                    <h:outputLabel styleClass="outputLabel" value="Mode">
+                        <b:switch ajax="true" fieldSize="lg" value="#{themeBean.dayMode}" onText="DAY" offText="NIGHT"/>
+                    </h:outputLabel>
+                </div>
+                <div jsf:layout="block">
+                    <h:outputLabel styleClass="outputLabel" value="Day Theme">
+                        <b:selectOneMenu fieldSize="lg" value="#{userPreferenceBean.dayTheme}" onchange="ajax:userPreferenceBean.saveTheme()">
+                            <f:selectItems value="#{themeBean.themes}"/>
+                        </b:selectOneMenu>
+                    </h:outputLabel>
+                    <h:outputLabel styleClass="leftMargin outputLabel" value="Night Theme">
+                        <b:selectOneMenu fieldSize="lg" value="#{userPreferenceBean.nightTheme}" onchange="ajax:userPreferenceBean.saveTheme()">
+                            <f:selectItems value="#{themeBean.themes}"/>
+                        </b:selectOneMenu>
+                    </h:outputLabel>
+                </div>
+            </b:form>
+        </b:panel>
+    </ui:define>        
+    
+</ui:composition>

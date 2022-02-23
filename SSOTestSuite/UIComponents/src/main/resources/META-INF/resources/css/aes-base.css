@@ -1,0 +1,338 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 2, 2017, 10:13:42 AM
+    Author     : tgorman
+*/
+
+html {
+    height: 100%;
+    overflow-y: hidden; 
+}
+
+body {
+    margin-top: 50px !IMPORTANT;
+    height: calc(100% - 50px);
+}
+
+body.standalone {
+    margin-top: 0px !IMPORTANT;
+    height: 100%;
+}
+
+.labelTextSize {
+    font-size: 11px;
+}
+
+.normalTextSize {
+    font-size: 14px;
+}
+
+.bigTextSize {
+    font-size: 14px;
+}
+
+#main {
+    position: relative;
+    padding-top: 1em;
+    height: 100%;
+    top: 0px;
+    left: auto;
+    overflow-y: auto;
+}
+
+#no-bottomtab-main {
+    position: relative;
+    height: calc(100% - 65px);
+    top: 0px;
+    left: auto;
+}
+
+#details {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    padding: 1em;
+    z-index: 0; 
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.additionalButton {
+    margin-left: 1em;
+}
+
+.blockLabel {
+    display: inline-block;
+    margin-right: 1.5em;
+    font-weight: normal;
+}
+
+.blockText {
+    display: block;
+    font-weight: bold;
+}
+
+.blockInputText {
+    display: block;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.blockText:empty:after {
+    content: "\00a0";
+}
+
+.gridRow {
+    margin-bottom: 1em;
+}
+
+.gridLabel {
+    display: inline-block;
+    width: 100%;
+    font-weight: normal;
+    font-size: 80%;
+    text-transform: uppercase;
+}
+
+.gridText {
+    display: block;
+    font-weight: bold;
+    font-size: 125%;
+}
+
+.gridFieldText {
+    display: block;
+    font-weight: bold;
+    font-size: 125%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.gridFieldMixedCaseText {
+    display: block;
+    font-weight: bold;
+    font-size: 125%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-transform: none;
+}
+
+.gridInputText {
+    display: block;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.gridAutocomplete {
+    display: block;
+}
+
+.gridAutocomplete input {
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 100%;
+    box-shadow: none !IMPORTANT;
+    border: 1px solid #ccc !IMPORTANT;
+}
+
+.gridOutputText {
+    display: block;
+    font-weight: bold;
+}
+
+.gridText:empty:after {
+    content: "\00a0";
+}
+
+.gridFieldText:empty:after {
+    content: "\00a0";
+}
+
+.gridFieldMixedCaseText:empty:after {
+    content: "\00a0";
+}
+
+.select2-container {
+    width: 100% !important;
+    font-size: 14px;
+}
+
+.backButton {
+    margin-bottom: 1em;
+}
+
+.addButton {
+    margin-bottom: 1em;
+}
+
+.topToolbar {
+    margin-bottom: 1em;
+}
+
+.bottomToolbar {
+    margin-top: 1em;
+}
+
+form#returnForm {
+    margin-bottom: 1em;
+}
+
+.commIndicatorOn {
+    color: lime;
+}
+
+.commIndicatorOff {
+    color: grey;
+}
+
+.navbar-inverse .navbar-nav .disabled a {     
+    color: #9d9d9d !important;    
+}
+
+.hidden {
+    display: none;
+}
+
+.upperCase {
+    text-transform: uppercase;
+}
+
+.leftMargin {
+    margin-left: 1em;
+}
+
+.upperCaseInputText {
+    text-transform: uppercase;
+}
+
+.launchPanel {
+    margin: 0 auto;
+    width: 13em;
+}
+/*
+ * Prevent navbar from collapsing on small devices
+ */
+.navbar-collapse.collapse {
+  display: block!important;
+}
+
+.navbar-nav>li, .navbar-nav {
+  float: left !important;
+}
+
+.navbar-nav.navbar-right:last-child {
+  margin-right: -15px !important;
+}
+
+.navbar-right {
+  float: right!important;
+}
+
+.section-heading {
+    color: #fff;
+    background-color: #7386D5;
+    border-color: #337ab7;  
+    margin-bottom: 1em;    
+    font-style: italic;    
+}
+
+.section-title { 
+    margin-top: 0;
+    margin-bottom: 0;
+    color: inherit;    
+    font-size: 14px;
+    font-weight: 600;    
+}
+
+
+img {
+    vertical-align: middle !important;
+}
+
+
+/*
+ * Phone-sized device
+ */
+@media only screen and (max-width: 768px) {
+    
+    .navbar-header {
+        display: none;
+    }
+
+    .fa, .fas, .fab, .far, .fal {
+        font-size: 1.5em !important;
+    }
+
+}
+
+/*
+ * Devices larger than a phone
+ */
+@media only screen and (min-width: 768px) {
+    
+    body {
+        margin-top: 65px !IMPORTANT;
+        height: calc(100% - 65px);
+        font-size: 18px;
+    }
+    
+    body.standalone {
+        margin-top: 0px;
+        height: 100%;
+    }
+
+    .labelTextSize {
+        font-size: 14px;
+    }
+    
+    .normalTextSize {
+        font-size: 18px;
+    }
+    
+    .bigTextSize {
+        font-size: 21px;
+    }
+    
+    .parked {
+        margin-left: 0px;
+    }
+    
+    .btn {
+        padding: 10px 16px;
+        font-size: 18px;
+        line-height: 1.3333;
+        border-radius: 6px;
+    }
+    
+    .fa, .fas, .fab, .far, .fal {
+        font-size: 2em !important;
+    }
+    
+    .navbar-brand {
+        font-size: 25px;
+    }
+    
+    .updateButton .fa, .updateButton .fas, .updateButton .fab, .updateButton .far, .updateButton .fal {
+        font-size: 1em !important;        
+    }  
+
+    .updateButton .btn {
+        padding: 6px 12px !important;
+        font-size: 14px !important;
+        line-height: 1.428571429;
+        border-radius: 6px;        
+    }    
+    
+    .tableFont {
+        font-size: 80%;
+    }    
+
+}

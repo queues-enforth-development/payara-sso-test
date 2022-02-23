@@ -1,0 +1,426 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Apr 15, 2017, 5:49:15 PM
+    Author     : jimmc
+*/
+
+
+html {
+    height: 100%;
+    overflow-y: hidden; 
+}
+
+body {
+    height: 100%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#main {
+    position: relative;
+    height: calc(100% - 100px);
+    top: 0px;
+    left: auto;
+    background-color: inherit;
+    overflow-y: auto;    
+}
+
+.aesBrand {
+    height: 25px;
+    max-height: 25px;
+}
+
+#menu {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    padding: 1em;
+     z-index: 1; 
+    overflow-y: auto;
+    overflow-x: hidden;
+    border:0px;     
+}
+
+#recentMenu {
+    margin: 1em;
+}
+
+#details {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    padding: 1em;
+    z-index: 0; 
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.parked {
+    margin-left: -100%;
+}
+
+#details\:buttons {
+    margin-bottom: 1em;
+}
+
+.photoPanel {
+    width: 100%;
+    overflow: hidden;    
+}
+
+#details\:result {
+    margin-left: 1em;
+    margin-right: 1em;
+    margin-bottom: 1em;
+}
+
+.buttonBlock {
+    display: block;
+    margin-top: 1em;
+}
+
+.additionalButton {
+    margin-left: 1em;
+}
+
+.backButton {
+    margin-bottom: 1em;
+}
+
+form#returnForm {
+    margin-bottom: 1em;
+}
+
+/*
+ * Prevent navbar from collapsing on small devices
+ */
+.navbar-collapse.collapse {
+  display: block!important;
+}
+
+.navbar-nav>li, .navbar-nav {
+  float: left !important;
+}
+
+.navbar-nav.navbar-right:last-child {
+  margin-right: -15px !important;
+}
+
+.navbar-right {
+  float: right!important;
+}
+
+.leftMargin {
+    margin-left: 1em;
+}
+
+/*
+ * Phone-sized device
+ */
+@media only screen and (max-width: 768px) {
+    
+    .navbar-header {
+        display: none;
+    }
+
+    .fa, fas {
+        font-size: 1.5em !important;
+    }
+
+}
+
+/*
+ * Devices larger than a phone
+ */
+@media only screen and (min-width: 768px) {
+    
+    
+    #main {
+        height: calc(100% - 130px);
+    }
+        
+    body {
+        margin-top: 65px;
+        margin-bottom: 65px;
+        font-size: 18px;
+    }
+    
+    .aesBrand {
+        height: 40px;
+        max-height: 40px;
+        padding-right: 1em;
+    }
+    
+    .navbar-brand {
+        font-size: 25px;
+    }
+
+    #menu {
+        width: 20em;
+    }
+    
+    #details {
+        padding-left: 20em;
+    }
+    
+    .parked {
+        margin-left: 0px;
+    }
+    
+    .btn {
+        padding: 10px 16px;
+        font-size: 18px;
+        line-height: 1.3333;
+        border-radius: 6px;
+    }
+    
+    .fa, .fas {
+        font-size: 2em !important;
+    }
+
+
+    .tableButton .fa, .tableButton .fas  {
+        font-size: 1em !important;        
+    }     
+
+    .updateButton .fa, .updateButton .fas {
+        font-size: 1em;        
+    }  
+
+    .updateButton .btn {
+        padding: 6px 12px !important;
+        font-size: 14px !important;
+        line-height: 1.428571429;
+        border-radius: 6px;        
+    }     
+    
+}
+
+/*
+ * Side Menu Styles
+ */
+
+.linkHead {
+    color: white;
+    background-color: #337ab7;  
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;    
+}
+
+.ulHead {
+    padding: 0px;        
+}
+
+/*
+ * Generic input formats
+ */
+.blockLabel {
+    display: inline-block;
+    margin-right: 1.5em;
+    font-weight: normal;
+}
+
+.blockText {
+    display: block;
+    font-weight: bold;
+}
+
+.blockInputText {
+    display: block;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.incidentColumn {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+
+.incidentLabel {
+    display: inline-block;
+    font-size: 80%;
+    margin-bottom: 1em;
+    font-weight: bold; 
+    padding-left: 0.5em;
+    width: 100%;    
+}
+
+.selectLabel {
+    display: inline-block;
+    font-size: 80%;
+    margin-bottom: 1em;
+    font-weight: bold; 
+    padding-left: 0.5em;
+    width: 100%;     
+}
+
+.select2-container .select2-selection--single {
+   height: 34px !important;
+}
+
+.select2-container {
+    width: 100% !important;
+    font-size: 14px;
+}
+
+.incidentText {
+    display: block;
+    text-transform: none;
+    margin-left: -0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    border: 1px solid #ddd;
+    border-radius: 0.25em;
+    font-weight: normal;    
+}
+
+.incidentText:empty:after {
+    content: "\00a0";
+}
+
+.section-heading {
+    color: #fff;
+    background-color: #7386D5;
+    border-color: #337ab7;  
+    margin-bottom: 1em;    
+    font-style: italic;    
+}
+
+.section-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: inherit;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+div.dataTables_wrapper div.dataTables_info{
+    display: none;    
+}
+
+.tableFont {
+    font-size: 80%;
+    margin-bottom: 1em;    
+}
+
+.helpText {
+    display: block;
+    text-transform: none;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    border: 1px solid #337ab7;
+    border-radius: 0.25em;
+    font-weight: normal;
+    color: crimson;
+}
+
+
+.gridRow {
+    margin-bottom: 1em;
+}
+
+.gridLabel {
+    display: inline-block;
+    width: 100%;
+    font-weight: normal;
+    font-size: 80%;
+    text-transform: uppercase;
+}
+
+.gridText {
+    display: block;
+    font-weight: bold;
+    font-size: 125%;
+}
+
+.gridFieldText {
+    display: block;
+    font-weight: bold;
+    font-size: 125%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.gridInputText {
+    display: block;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.gridAutocomplete {
+    display: block;
+}
+
+.gridAutocomplete input {
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 100%;
+    box-shadow: none !IMPORTANT;
+    border: 1px solid #ccc !IMPORTANT;
+}
+
+.gridOutputText {
+    display: block;
+    font-weight: bold;
+}
+
+.gridText:empty:after {
+    content: "\00a0";
+}
+
+.gridFieldText:empty:after {
+    content: "\00a0";
+}
+
+.dialog {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: calc(-100px + 100%);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.dialogPanel {
+    margin: 1em;
+}
+
+.dialogButtons {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 60px;
+    width: 100%;
+}
+
+#editbasic {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: calc(-0px + 100%);
+    overflow-y: auto;
+    overflow-x: hidden;    
+}
+
+.ui-picklist .ui-picklist-list {
+    height: 400px;    
+}
+

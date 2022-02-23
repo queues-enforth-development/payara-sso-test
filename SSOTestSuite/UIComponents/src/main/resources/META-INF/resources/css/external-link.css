@@ -1,0 +1,24 @@
+
+.linkPanel {
+    margin: 0 auto;
+    width: 13em;
+}
+
+.linkButton {
+    display: none !IMPORTANT;
+}
+
+.spinnerBlock {
+    display: block;
+    margin-left: 4em;
+    margin-bottom: 1em;
+}
+
+.connectSpinner {
+    font-size: 300% !IMPORTANT;
+    color: #337ab7;
+}
+
+.launchMessage {
+    margin-top: 1em;
+}

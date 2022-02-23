@@ -1,0 +1,65 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+allprojects {
+    version = '3.24.0000'
+    group = 'com.qed.aes.system.ui'
+}
+
+archivesBaseName = 'ui-components'
+
+dependencies {    
+    
+    // QED Maven artifacts
+    compile 'com.qed.aes.system.security:aes-security:5.02.0001'
+    compile 'com.qed.aes.system:identity-manager-ejb:1.07.0000'    
+    
+    // Bootsfaces initialization
+    compile 'com.qed.aes.system:init-bootsfaces:3.00.0000'
+    
+    // UI framework
+    compile 'net.bootsfaces:bootsfaces:1.5.0'
+
+    // Security
+    compile 'org.glassfish.soteria:jakarta.security.enterprise:1.0.1'
+    
+    // Sunrise/sunset
+    // TBD will need GPS to work
+    //compile 'org.shredzone.commons:commons-suncalc:3.3'
+    
+    // Java EE
+    compile 'javax:javaee-api:8.0.1'
+    
+}
+
+jar {
+    manifest {
+        attributes(
+            "Specification-Title" : "AES UI Components",
+            "Specification-Version" : "1.00.0000",
+            "Specification-Vendor" : "Q.E.D., Inc.",
+            "Implementation-Title" : "com.qed.aes.system.ui",
+            "Implementation-Version" : project.version,
+            "Implementation-Vendor" : "Q.E.D., Inc."
+        )
+    }    
+}
+
+task createPom {
+    pom {
+        project {
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+        }
+    }.writeTo("$buildDir/pom.xml")
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        pom.version = project.version
+        pom.artifactId = project.archivesBaseName
+        pom.groupId = project.group
+    }
+}
+

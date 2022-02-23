@@ -1,0 +1,40 @@
+<ui:composition template="/errorpages/error-template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:b="http://bootsfaces.net/ui"    
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:o="http://omnifaces.org/ui"
+    xmlns:of="http://omnifaces.org/functions"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+    
+    <ui:define name="title">
+        Error
+    </ui:define>
+    
+    <ui:define name="return">
+        <b:buttonToolbar styleClass="topToolbar">
+            <b:buttonGroup>
+                <b:button size="lg" iconAwesome="arrow-circle-left" iconSolid="true" look="success" value="Go Back" outcome="/index"/>
+                <b:button size="lg" iconAwesome="sign-out" iconSolid="true" value="Logout" look="warning" outcome="/logout"/>
+            </b:buttonGroup>
+        </b:buttonToolbar>
+    </ui:define>
+    
+    <ui:define name="content">
+        <b:panel look="warning" title="An Unexpected Error Has Occurred">
+            <b:form>
+                <ul>
+                    <li>Status code: #{requestScope['javax.servlet.error.status_code']}</li>
+                    <li>Exception type: #{requestScope['javax.servlet.error.exception_type']}</li>
+                    <li>Exception message: #{requestScope['javax.servlet.error.message']}</li>
+                </ul>
+                <b:well style="max-height: 20em; overflow: auto">
+                    <pre>#{of:printStackTrace(requestScope['javax.servlet.error.exception'])}</pre>
+                </b:well>
+            </b:form>
+        </b:panel>
+    </ui:define>
+    
+</ui:composition>

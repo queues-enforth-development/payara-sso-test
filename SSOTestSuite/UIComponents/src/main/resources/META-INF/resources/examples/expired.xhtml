@@ -1,0 +1,28 @@
+<ui:composition template="/errorpages/error-template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:b="http://bootsfaces.net/ui"    
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:o="http://omnifaces.org/ui"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+    
+    <ui:define name="title">
+        Session Expired
+    </ui:define>
+        
+    <ui:define name="content">
+        <b:panel look="warning" title="Session Expired">
+            <b:form>
+                <h:outputText styleClass="p" value="Your session has expired; please log in again."/>
+                <b:buttonToolbar styleClass="bottomToolbar">
+                    <b:buttonGroup>
+                        <b:button size="lg" iconAwesome="arrow-circle-right" iconSolid="true" look="success" value="Login Again" outcome="/index"/>
+                    </b:buttonGroup>
+                </b:buttonToolbar>
+            </b:form>
+        </b:panel>
+    </ui:define>
+    
+</ui:composition>

@@ -19,6 +19,7 @@ import javax.inject.Named;
 import javax.security.enterprise.AuthenticationStatus;
 import static javax.security.enterprise.AuthenticationStatus.SEND_CONTINUE;
 import static javax.security.enterprise.AuthenticationStatus.SEND_FAILURE;
+import static javax.security.enterprise.AuthenticationStatus.SUCCESS;
 import javax.security.enterprise.SecurityContext;
 import static javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters.withParams;
 import javax.security.enterprise.authentication.mechanism.http.CustomFormAuthenticationMechanismDefinition;
@@ -109,13 +110,13 @@ public class LoginBean {
                 // Try to validate our user
                 AuthenticationStatus status = securityContext.authenticate(getRequestFrom(facesContext), getResponseFrom(facesContext), withParams().credential(credential));
 
-                // If we are OK
+                // If we are OK and need to send a redirect...
                 if (status.equals(SEND_CONTINUE)) {
 
 
                     // Normally do some housekeeping here...
 
-                    // Complete the response
+                    // Complete the response and send the redirect
                     facesContext.responseComplete();
 
 

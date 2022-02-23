@@ -21,6 +21,7 @@ import javax.security.enterprise.identitystore.IdentityStore;
  * @author jimmc
  */
 @ApplicationScoped
+//@RealmIdentityStoreDefinition("file")
 public class MockIdentityStore implements IdentityStore {
     
     /**

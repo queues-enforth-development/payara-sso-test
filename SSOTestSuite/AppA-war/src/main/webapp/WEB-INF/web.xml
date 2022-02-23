@@ -3,10 +3,10 @@
     <display-name>Application A</display-name>
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
+        <param-value>Production</param-value>
     </context-param> 
     <context-param>
-        <param-name>facelets.REFRESH_PERIOD</param-name>
+        <param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
         <param-value>-1</param-value>
     </context-param>    
     <context-param>
@@ -84,7 +84,6 @@
         <web-resource-collection>
             <web-resource-name>Application Pages</web-resource-name>
             <url-pattern>/faces/*</url-pattern>
-            <url-pattern>/index.*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>GROUP 1</role-name>

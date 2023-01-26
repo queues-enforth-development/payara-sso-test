@@ -62,6 +62,9 @@
         <error-code>500</error-code>
         <location>/errorpages/error.xhtml</location>
     </error-page>
+    <login-config> 
+        <realm-name>aes</realm-name> 
+    </login-config>
     <security-constraint>
         <display-name>Public</display-name>
         <web-resource-collection>
